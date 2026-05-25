@@ -38,9 +38,6 @@ jobs:
       - name: Construir el proyecto
         run: npm run build
         
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v4
-        
       - name: Subir artefacto (dist)
         uses: actions/upload-pages-artifact@v3
         with:
