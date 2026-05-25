@@ -386,7 +386,7 @@ function CategorySection({ catKey, catData, sel }) {
   };
 
   const lineChartConfig = useMemo(() => {
-    const xLabels = filteredAttrs.map(a => '\u00A0\u00A0\u00A0' + a.label);
+    const xLabels = filteredAttrs.map(a => a.label);
     const series = sel.map(p => ({
       data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0)),
       label: p.nombre,
@@ -411,7 +411,8 @@ function CategorySection({ catKey, catData, sel }) {
         data: xLabels, 
         scaleType: 'point',
         tickInterval: xLabels,
-        tickLabelStyle: { angle: 90, textAnchor: 'start', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
+        tickLabelInterval: () => true,
+        tickLabelStyle: { fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       yAxis: [{ 
         id: 'score-axis', 
@@ -504,7 +505,12 @@ function CategorySection({ catKey, catData, sel }) {
                                   sx={{
                                     width: '100%',
                                     '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
+                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                                    '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                                      transform: 'rotate(90deg) translateY(-10px) translateX(10px)',
+                                      textAnchor: 'start',
+                                      dominantBaseline: 'central'
+                                    }
                                   }}
                                 />
                               </ThemeProvider>
@@ -524,7 +530,12 @@ function CategorySection({ catKey, catData, sel }) {
                           sx={{
                             width: '100%',
                             '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
+                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                            '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                              transform: 'rotate(90deg) translateY(-10px) translateX(10px)',
+                              textAnchor: 'start',
+                              dominantBaseline: 'central'
+                            }
                           }}
                         />
                         </ThemeProvider>
