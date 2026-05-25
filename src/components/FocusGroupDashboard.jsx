@@ -410,7 +410,7 @@ function CategorySection({ catKey, catData, sel }) {
       xAxis: [{ 
         data: xLabels, 
         scaleType: 'point',
-        tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 12, fill: '#B8B9B6' }
+        tickLabelStyle: { angle: -45, textAnchor: 'end', fontSize: 11, fill: '#B8B9B6' }
       }],
       yAxis: [{ id: 'score-axis', label: 'Puntuación (0-6)' }],
       series: series
@@ -480,16 +480,16 @@ function CategorySection({ catKey, catData, sel }) {
                 {filteredAttrs.length >= 3 && catKey !== 'tactil' && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala 0–6)</p>
-                    <div className="hover-card" style={{ width: '100%', maxWidth: '800px', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
+                    <div className="hover-card" style={{ width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)', overflowX: 'auto' }}
                       onClick={() => setModalData({
                         title: 'Perfil comparativo',
                         content: (
                           <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
-                            <div style={{ minWidth: '1000px', paddingBottom: '40px' }}>
+                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center', paddingBottom: '40px' }}>
                               <ThemeProvider theme={darkTheme}>
                                 <MuiLineChart
                                   {...lineChartConfig}
-                                  width={1200}
+                                  width={1000}
                                   height={500}
                                   margin={{ top: 20, right: 40, bottom: 120, left: 40 }}
                                   slotProps={{ legend: { hidden: true } }}
@@ -506,21 +506,23 @@ function CategorySection({ catKey, catData, sel }) {
                         )
                       })}
                     >
-                      <ThemeProvider theme={darkTheme}>
-                      <MuiLineChart
-                        {...lineChartConfig}
-                        width={isMobile ? 320 : 1000}
-                        height={isMobile ? 300 : 400}
-                        margin={{ top: 20, right: 40, bottom: 100, left: 40 }}
-                        slotProps={{ legend: { hidden: true } }}
-                        sx={{
-                          width: '100%',
-                          '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '11px' },
-                          '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6', fontSize: '11px' },
-                          [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
-                        }}
-                      />
-                      </ThemeProvider>
+                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center' }}>
+                        <ThemeProvider theme={darkTheme}>
+                        <MuiLineChart
+                          {...lineChartConfig}
+                          width={isMobile ? 320 : 900}
+                          height={isMobile ? 300 : 400}
+                          margin={{ top: 20, right: 40, bottom: 100, left: 40 }}
+                          slotProps={{ legend: { hidden: true } }}
+                          sx={{
+                            width: '100%',
+                            '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '11px' },
+                            '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6', fontSize: '11px' },
+                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
+                          }}
+                        />
+                        </ThemeProvider>
+                      </div>
                     </div>
                   </div>
                 )}
