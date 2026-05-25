@@ -441,7 +441,7 @@ function CategorySection({ catKey, catData, sel }) {
         scaleType: 'point',
         tickInterval: xLabels,
         tickLabelInterval: () => true,
-        tickLabelStyle: { fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
+        tickLabelStyle: { angle: -90, textAnchor: 'end', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       yAxis: [{ 
         id: 'score-axis', 
@@ -563,12 +563,7 @@ function CategorySection({ catKey, catData, sel }) {
                                     width: '100%',
                                     overflow: 'visible',
                                     '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
-                                    '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
-                                      transform: 'rotate(90deg) translateY(-10px) translateX(10px)',
-                                      textAnchor: 'start',
-                                      dominantBaseline: 'central'
-                                    }
+                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
                                   }}
                                 />
                               </ThemeProvider>
@@ -589,12 +584,7 @@ function CategorySection({ catKey, catData, sel }) {
                             width: '100%',
                             overflow: 'visible',
                             '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
-                            '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
-                              transform: 'rotate(90deg) translateY(-10px) translateX(10px)',
-                              textAnchor: 'start',
-                              dominantBaseline: 'central'
-                            }
+                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
                           }}
                         />
                         </ThemeProvider>
