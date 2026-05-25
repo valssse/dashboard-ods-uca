@@ -598,9 +598,9 @@ function CategorySection({ catKey, catData, sel }) {
                         onClick={() => setModalData({
                           title: `Puntuación: ${attr.izq} / ${attr.der}`,
                           content: (
-                            <div style={{ width: '100%', height: Math.max(400, sel.length * 40 + 60) }}>
+                          <div style={{ width: '100%', height: Math.max(400, sel.length * 40 + 80) }}>
                               <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={[attr]} layout="vertical" margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
+                                <BarChart data={[attr]} layout="vertical" margin={{ left: 0, right: 0, top: 0, bottom: 20 }}>
                                   <CartesianGrid stroke="#252525" horizontal={false} vertical={true} strokeWidth={0.8} />
                                   <XAxis type="number" domain={[-3, 3]} tickCount={7} tick={{...TICK_STYLE, fontSize: 14}} />
                                   <YAxis yAxisId="left" orientation="left" type="category" dataKey="name" width={100} tickFormatter={() => attr.izq} tick={{ fontSize: 14, fill: 'var(--fg-muted)', fontFamily: 'var(--font)' }} axisLine={false} tickLine={false} />
@@ -616,8 +616,8 @@ function CategorySection({ catKey, catData, sel }) {
                         })}
                       >
                         <h5 style={{ fontFamily: 'var(--font)', fontSize: '13px', textAlign: 'center', marginBottom: '12px', color: 'var(--fg)' }}>{attr.izq} / {attr.der}</h5>
-                        <ResponsiveContainer width="100%" height={sel.length * 18 + 40}>
-                          <BarChart data={[attr]} layout="vertical" margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
+                        <ResponsiveContainer width="100%" height={sel.length * 18 + 60}>
+                          <BarChart data={[attr]} layout="vertical" margin={{ left: 0, right: 0, top: 0, bottom: 20 }}>
                             <CartesianGrid stroke="#252525" horizontal={false} vertical={true} strokeWidth={0.8} />
                             <XAxis type="number" domain={[-3, 3]} tickCount={7} tick={TICK_STYLE} />
                             <YAxis yAxisId="left" orientation="left" type="category" dataKey="name" width={70} tickFormatter={() => attr.izq} tick={{ fontSize: 10, fill: 'var(--fg-muted)', fontFamily: 'var(--font)' }} axisLine={false} tickLine={false} />
