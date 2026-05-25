@@ -263,10 +263,39 @@ function CategorySection({ catKey, catData, sel }) {
       // Wait for React to re-render without maxHeight
       await new Promise(r => setTimeout(r, 100));
 
+      // Workaround for html-to-image ignoring CSS transforms on SVG text:
+      // We manually apply native SVG transform attributes just before capturing.
+      const svgTexts = cardRef.current.querySelectorAll('.MuiChartsAxis-bottom .MuiChartsAxis-tickLabel');
+      const originalTransforms = [];
+      const originalStyles = [];
+      
+      svgTexts.forEach((text, i) => {
+        originalStyles.push(text.getAttribute('style') || '');
+        originalTransforms.push(text.getAttribute('transform') || '');
+        
+        // Disable CSS transform temporarily
+        text.style.transform = 'none';
+        
+        const x = parseFloat(text.getAttribute('x') || 0);
+        const y = parseFloat(text.getAttribute('y') || 0);
+        // Apply native SVG rotation (-90 deg) around the text anchor point
+        text.setAttribute('transform', `rotate(-90, ${x}, ${y}) translate(10, 10)`);
+      });
+
       const dataUrl = await toPng(cardRef.current, {
         filter: (node) => !node.classList?.contains?.('no-export'),
         backgroundColor: '#161616',
         pixelRatio: 3 // High resolution for design tools
+      });
+      
+      // Restore original state
+      svgTexts.forEach((text, i) => {
+        text.setAttribute('style', originalStyles[i]);
+        if (originalTransforms[i]) {
+          text.setAttribute('transform', originalTransforms[i]);
+        } else {
+          text.removeAttribute('transform');
+        }
       });
       
       setIsExporting(false);
@@ -441,7 +470,7 @@ function CategorySection({ catKey, catData, sel }) {
         scaleType: 'point',
         tickInterval: xLabels,
         tickLabelInterval: () => true,
-        tickLabelStyle: { angle: -90, textAnchor: 'end', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
+        tickLabelStyle: { textAnchor: 'end', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       yAxis: [{ 
         id: 'score-axis', 
@@ -563,7 +592,11 @@ function CategorySection({ catKey, catData, sel }) {
                                     width: '100%',
                                     overflow: 'visible',
                                     '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
+                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                                    '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                                      transform: 'rotate(-90deg) translateX(10px) translateY(10px)',
+                                      textAnchor: 'end'
+                                    }
                                   }}
                                 />
                               </ThemeProvider>
@@ -584,7 +617,11 @@ function CategorySection({ catKey, catData, sel }) {
                             width: '100%',
                             overflow: 'visible',
                             '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
+                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                            '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                              transform: 'rotate(-90deg) translateX(10px) translateY(10px)',
+                              textAnchor: 'end'
+                            }
                           }}
                         />
                         </ThemeProvider>
