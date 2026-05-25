@@ -273,9 +273,6 @@ function CategorySection({ catKey, catData, sel }) {
         originalStyles.push(text.getAttribute('style') || '');
         originalTransforms.push(text.getAttribute('transform') || '');
         
-        // Disable CSS transform temporarily
-        text.style.transform = 'none';
-        
         try {
           const bbox = text.getBBox();
           const cx = bbox.x;
@@ -600,7 +597,7 @@ function CategorySection({ catKey, catData, sel }) {
                                     [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
                                     '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
                                       opacity: 1,
-                                      transform: 'rotate(-90deg) translateX(10px) translateY(10px)',
+                                      ...(isExporting ? {} : { transform: 'rotate(-90deg) translateX(10px) translateY(10px)' }),
                                       textAnchor: 'end'
                                     }
                                   }}
@@ -626,7 +623,7 @@ function CategorySection({ catKey, catData, sel }) {
                             [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
                             '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
                               opacity: isExporting ? 1 : 0,
-                              transform: 'rotate(-90deg) translateX(10px) translateY(10px)',
+                              ...(isExporting ? {} : { transform: 'rotate(-90deg) translateX(10px) translateY(10px)' }),
                               textAnchor: 'end'
                             }
                           }}
