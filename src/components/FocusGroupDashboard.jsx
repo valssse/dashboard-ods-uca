@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { toSvg } from 'html-to-image';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, ReferenceArea, Cell, Rectangle
@@ -251,6 +252,24 @@ function CategorySection({ catKey, catData, sel }) {
   const [search, setSearch] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const cardRef = useRef(null);
+
+  const handleDownloadSvg = async (e) => {
+    e.stopPropagation();
+    if (!cardRef.current) return;
+    try {
+      const dataUrl = await toSvg(cardRef.current, {
+        filter: (node) => !node.classList?.contains?.('no-export'),
+        backgroundColor: '#161616'
+      });
+      const link = document.createElement('a');
+      link.download = `${catData.titulo.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.svg`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Error al descargar SVG:', err);
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -427,7 +446,8 @@ function CategorySection({ catKey, catData, sel }) {
   }, [filteredAttrs, catKey, sel]);
 
   return (
-    <Card style={{ overflow: 'hidden' }}>
+    <div ref={cardRef}>
+      <Card style={{ overflow: 'hidden' }}>
       {/* Collapsible header */}
       <div
         onClick={() => setOpen(x => !x)}
@@ -469,12 +489,32 @@ function CategorySection({ catKey, catData, sel }) {
                       <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--fg)' }}>{p.nombre}</span>
                     </div>
                   ))}
+                  <button
+                    className="no-export"
+                    onClick={handleDownloadSvg}
+                    style={{
+                      marginLeft: '12px',
+                      padding: '6px 12px',
+                      backgroundColor: 'var(--primary)',
+                      color: '#000',
+                      border: 'none',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      transition: 'opacity 0.2s'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
+                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                  >
+                    Descargar SVG
+                  </button>
                 </div>
               </div>
             )}
           </div>
         </div>
-        <div style={{ marginTop: '2px' }}>
+        <div style={{ marginTop: '2px' }} className="no-export">
           <svg style={{ width: '18px', height: '18px', color: 'var(--fg-subtle)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s', flexShrink: 0 }}
             fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -625,6 +665,7 @@ function CategorySection({ catKey, catData, sel }) {
         {modalData?.content}
       </Modal>
     </Card>
+    </div>
   );
 }
 
