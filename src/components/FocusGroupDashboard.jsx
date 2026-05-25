@@ -610,29 +610,38 @@ function CategorySection({ catKey, catData, sel }) {
                         )
                       })}
                     >
-                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center' }}>
-                        <ThemeProvider theme={darkTheme}>
-                        <MuiLineChart
-                          {...lineChartConfig}
-                          width={isMobile ? 320 : 900}
-                          height={isMobile ? 260 : (isExporting ? 400 : 280)}
-                          margin={{ top: 20, right: 40, bottom: isExporting ? 140 : 20, left: 40 }}
-                          slotProps={{ legend: { hidden: true } }}
-                          sx={{
-                            width: '100%',
-                            overflow: 'visible',
-                            '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
-                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
-                            '& .MuiChartsAxis-line': { stroke: '#404040' },
-                            '& .MuiChartsAxis-tick': { stroke: '#404040' },
-                            '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
-                              opacity: isExporting ? 1 : 0,
-                              ...(isExporting ? {} : { transform: 'rotate(-90deg) translateX(10px) translateY(10px)' }),
-                              textAnchor: 'end'
-                            }
-                          }}
-                        />
-                        </ThemeProvider>
+                      <div style={{ width: '100%', minWidth: (isMobile && !isExporting) ? '100%' : '900px', display: 'flex', justifyContent: 'center' }}>
+                        {(isMobile && !isExporting) ? (
+                          <div style={{ padding: '40px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', color: 'var(--fg-muted)', backgroundColor: 'rgba(255, 255, 255, 0.02)', borderRadius: '8px', width: '100%' }}>
+                            <svg style={{ width: '28px', height: '28px', opacity: 0.7 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                            </svg>
+                            <span style={{ fontSize: '13px', fontWeight: 500, textAlign: 'center' }}>Abrir modal de gráfico comparativo</span>
+                          </div>
+                        ) : (
+                          <ThemeProvider theme={darkTheme}>
+                            <MuiLineChart
+                              {...lineChartConfig}
+                              width={isMobile && !isExporting ? 320 : 900}
+                              height={isMobile && !isExporting ? 260 : (isExporting ? 400 : 280)}
+                              margin={{ top: 20, right: 40, bottom: isExporting ? 140 : 20, left: 40 }}
+                              slotProps={{ legend: { hidden: true } }}
+                              sx={{
+                                width: '100%',
+                                overflow: 'visible',
+                                '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
+                                [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                                '& .MuiChartsAxis-line': { stroke: '#404040' },
+                                '& .MuiChartsAxis-tick': { stroke: '#404040' },
+                                '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                                  opacity: isExporting ? 1 : 0,
+                                  ...(isExporting ? {} : { transform: 'rotate(-90deg) translateX(10px) translateY(10px)' }),
+                                  textAnchor: 'end'
+                                }
+                              }}
+                            />
+                          </ThemeProvider>
+                        )}
                       </div>
                     </div>
                   </div>
