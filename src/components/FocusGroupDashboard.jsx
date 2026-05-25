@@ -494,16 +494,17 @@ function CategorySection({ catKey, catData, sel }) {
                         title: 'Perfil comparativo',
                         content: (
                           <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
-                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center', paddingBottom: '40px' }}>
+                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center', paddingBottom: '120px' }}>
                               <ThemeProvider theme={darkTheme}>
                                 <MuiLineChart
                                   {...lineChartConfig}
                                   width={1000}
-                                  height={600}
-                                  margin={{ top: 20, right: 40, bottom: 200, left: 40 }}
+                                  height={400}
+                                  margin={{ top: 20, right: 40, bottom: 20, left: 40 }}
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
+                                    overflow: 'visible',
                                     '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
                                     [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
                                     '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
@@ -519,16 +520,17 @@ function CategorySection({ catKey, catData, sel }) {
                         )
                       })}
                     >
-                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center' }}>
+                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center', paddingBottom: '120px' }}>
                         <ThemeProvider theme={darkTheme}>
                         <MuiLineChart
                           {...lineChartConfig}
                           width={isMobile ? 320 : 900}
-                          height={isMobile ? 380 : 500}
-                          margin={{ top: 20, right: 40, bottom: 200, left: 40 }}
+                          height={isMobile ? 300 : 350}
+                          margin={{ top: 20, right: 40, bottom: 20, left: 40 }}
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
+                            overflow: 'visible',
                             '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
                             [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
                             '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
