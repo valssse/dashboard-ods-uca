@@ -8,7 +8,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { participantes, categorias, metaDatos } from '../data/focusGroup';
 import {
-  Card, KpiCard, ScoreBar, SearchInput, TabBtn, DarkTooltip, EmptyState, Tag, Badge,
+  Card, KpiCard, ScoreBar, SearchInput, TabBtn, DarkTooltip, EmptyState, Tag, Badge, Modal
 } from './ui';
 
 /* ── Math helpers ── */
@@ -249,6 +249,7 @@ function CategorySection({ catKey, catData, sel }) {
   const [open, setOpen] = useState(true);
   const [search, setSearch] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -458,7 +459,37 @@ function CategorySection({ catKey, catData, sel }) {
                 {filteredAttrs.length >= 3 && catKey !== 'tactil' && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala 0–6)</p>
-                    <div style={{ width: '100%', maxWidth: '500px', display: 'flex', justifyContent: 'center' }}>
+                    <div className="hover-card" style={{ width: '100%', maxWidth: '500px', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
+                      onClick={() => setModalData({
+                        title: 'Perfil comparativo',
+                        content: (
+                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center' }}>
+                            <ThemeProvider theme={darkTheme}>
+                              <MuiRadarChart
+                                series={muiRadarSeries}
+                                radar={muiRadarConfig}
+                                width={600}
+                                height={500}
+                                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                                highlight="series"
+                                slotProps={{ legend: { hidden: true }, tooltip: { trigger: 'item' } }}
+                                sx={{
+                                  width: '100%',
+                                  '& .MuiChartsLegend-root': { display: 'none !important' },
+                                  '& .MuiChartsRadar-polygon': { fillOpacity: 0.15, strokeWidth: 2 },
+                                  '& .MuiChartsRadar-mark': { r: 3 },
+                                  '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '14px' },
+                                  '& .MuiChartsRadar-grid': { stroke: '#2A2A2A' },
+                                  '& .MuiChartsLegend-mark': { borderRadius: '3px' },
+                                  '& .MuiChartsLegend-label': { fill: '#B8B9B6', fontSize: '14px' },
+                                  '& text': { fontFamily: 'Geist, system-ui, sans-serif' },
+                                }}
+                              />
+                            </ThemeProvider>
+                          </div>
+                        )
+                      })}
+                    >
                       <ThemeProvider theme={darkTheme}>
                       <MuiRadarChart
                         series={muiRadarSeries}
@@ -492,7 +523,27 @@ function CategorySection({ catKey, catData, sel }) {
                   
                   <div style={{ display: 'grid', gridTemplateColumns: barData.length === 1 ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
                     {barData.map(attr => (
-                      <div key={attr.name} style={{ backgroundColor: 'var(--card-2)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '16px' }}>
+                      <div key={attr.name} className="hover-card" style={{ backgroundColor: 'var(--card-2)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '16px', cursor: 'pointer' }}
+                        onClick={() => setModalData({
+                          title: `Puntuación: ${attr.izq} / ${attr.der}`,
+                          content: (
+                            <div style={{ width: '100%', height: Math.max(400, sel.length * 40 + 60) }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={[attr]} layout="vertical" margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
+                                  <CartesianGrid stroke="#252525" horizontal={false} vertical={true} strokeWidth={0.8} />
+                                  <XAxis type="number" domain={[-3, 3]} tickCount={7} tick={{...TICK_STYLE, fontSize: 14}} />
+                                  <YAxis yAxisId="left" orientation="left" type="category" dataKey="name" width={100} tickFormatter={() => attr.izq} tick={{ fontSize: 14, fill: 'var(--fg-muted)', fontFamily: 'var(--font)' }} axisLine={false} tickLine={false} />
+                                  <YAxis yAxisId="right" orientation="right" type="category" dataKey="name" width={100} tickFormatter={() => attr.der} tick={{ fontSize: 14, fill: 'var(--fg-muted)', fontFamily: 'var(--font)' }} axisLine={false} tickLine={false} />
+                                  <ReferenceLine x={0} stroke="#444" strokeWidth={1.5} />
+                                  {sel.map(p => (
+                                    <Bar yAxisId="left" key={p.id} dataKey={p.nombre} fill={p.color} radius={[0, 4, 4, 0]} maxBarSize={24} shape={<CustomBarShape />} />
+                                  ))}
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )
+                        })}
+                      >
                         <h5 style={{ fontFamily: 'var(--font)', fontSize: '13px', textAlign: 'center', marginBottom: '12px', color: 'var(--fg)' }}>{attr.izq} / {attr.der}</h5>
                         <ResponsiveContainer width="100%" height={sel.length * 18 + 40}>
                           <BarChart data={[attr]} layout="vertical" margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
@@ -534,6 +585,15 @@ function CategorySection({ catKey, catData, sel }) {
               </div>
         </div>
       )}
+
+      <Modal 
+        isOpen={!!modalData} 
+        onClose={() => setModalData(null)} 
+        title={modalData?.title}
+        showDownload={true}
+      >
+        {modalData?.content}
+      </Modal>
     </Card>
   );
 }

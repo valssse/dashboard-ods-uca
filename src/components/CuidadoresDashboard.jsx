@@ -4,7 +4,7 @@ import {
   ResponsiveContainer, PieChart, Pie, Cell, Legend,
 } from 'recharts';
 import researchData from '../data/Research_ansianos.json';
-import { Card, KpiCard, SearchInput, TabBtn, EmptyState } from './ui';
+import { Card, KpiCard, SearchInput, TabBtn, EmptyState, Modal } from './ui';
 
 const TT_STYLE = { backgroundColor: 'var(--card-2)', border: '1px solid var(--border)', borderRadius: '12px', fontFamily: 'var(--font)', fontSize: '12px' };
 const TICK_STYLE = { fontSize: 10, fill: 'var(--fg-muted)', fontFamily: 'var(--font)' };
@@ -31,7 +31,7 @@ const TABS = [
 /* ═══════════════════════════════════════════
    QUOTE CARD
 ═══════════════════════════════════════════ */
-function QuoteCard({ q, roleId }) {
+function QuoteCard({ q, roleId, onClick }) {
   const role = ROLES[roleId] || { label: 'Desconocido', color: '#666', icon: 'person' };
   
   // Extract cite from quote if embedded
@@ -40,14 +40,15 @@ function QuoteCard({ q, roleId }) {
   const cite = citeMatch ? citeMatch[1] : '';
 
   return (
-    <div style={{
+    <div 
+      className="hover-card"
+      style={{
       backgroundColor: 'var(--card)', borderRadius: 'var(--r)',
       border: `1px solid ${role.color}30`, padding: '20px',
       display: 'flex', flexDirection: 'column', height: '100%',
-      transition: 'transform 0.2s, box-shadow 0.2s',
+      cursor: onClick ? 'pointer' : 'default',
     }}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = `0 8px 28px ${role.color}15`; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}
+      onClick={onClick}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <span style={{
@@ -133,6 +134,7 @@ function LinkCard({ linkString, catId }) {
 export default function CuidadoresDashboard() {
   const [tab, setTab] = useState('dementia');
   const [search, setSearch] = useState('');
+  const [modalData, setModalData] = useState(null);
 
   // Parsers
   const getQuotes = (section) => {
@@ -251,7 +253,23 @@ export default function CuidadoresDashboard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }} className="anim-fade-up">
           <Card style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <p style={{ fontWeight: 700, fontSize: '14px', color: 'var(--fg)' }}>Distribución de citas por actor</p>
-            <div style={{ height: '220px', width: '100%' }}>
+            <div className="hover-card" style={{ height: '220px', width: '100%', cursor: 'pointer', padding: '8px', borderRadius: 'var(--r-sm)' }} onClick={() => setModalData({
+              type: 'chart', title: 'Distribución de citas por actor (Con Demencia)',
+              content: (
+                <div style={{ width: '100%', height: '500px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={demPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={200} innerRadius={100} paddingAngle={4}
+                        label={({ percent }) => `${(percent * 100).toFixed(0)}%`} labelLine={false} fontSize={16}>
+                        {demPieData.map((e, i) => <Cell key={i} fill={e.color} />)}
+                      </Pie>
+                      <Tooltip formatter={(v, n) => [v, n]} contentStyle={{...TT_STYLE, fontSize: '16px'}} />
+                      <Legend wrapperStyle={{ fontSize: '16px', fontFamily: 'var(--font)' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              )
+            })}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie data={demPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={45} paddingAngle={4}
@@ -275,7 +293,9 @@ export default function CuidadoresDashboard() {
             </p>
             {filteredDem.length > 0 ? (
               <div className="grid-3col">
-                {filteredDem.map(q => <QuoteCard key={q.id} q={q} roleId={q.roleId} />)}
+                {filteredDem.map(q => <QuoteCard key={q.id} q={q} roleId={q.roleId} onClick={() => setModalData({
+                  type: 'quote', title: 'Detalle del Testimonio', content: <QuoteCard q={q} roleId={q.roleId} />
+                })} />)}
               </div>
             ) : (
               <EmptyState icon="search" text="No se encontraron citas." />
@@ -289,7 +309,23 @@ export default function CuidadoresDashboard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }} className="anim-fade-up">
           <Card style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <p style={{ fontWeight: 700, fontSize: '14px', color: 'var(--fg)' }}>Distribución de citas por actor</p>
-            <div style={{ height: '220px', width: '100%' }}>
+            <div className="hover-card" style={{ height: '220px', width: '100%', cursor: 'pointer', padding: '8px', borderRadius: 'var(--r-sm)' }} onClick={() => setModalData({
+              type: 'chart', title: 'Distribución de citas por actor (Sin Demencia)',
+              content: (
+                <div style={{ width: '100%', height: '500px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={noDemPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={200} innerRadius={100} paddingAngle={4}
+                        label={({ percent }) => `${(percent * 100).toFixed(0)}%`} labelLine={false} fontSize={16}>
+                        {noDemPieData.map((e, i) => <Cell key={i} fill={e.color} />)}
+                      </Pie>
+                      <Tooltip formatter={(v, n) => [v, n]} contentStyle={{...TT_STYLE, fontSize: '16px'}} />
+                      <Legend wrapperStyle={{ fontSize: '16px', fontFamily: 'var(--font)' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              )
+            })}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie data={noDemPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={45} paddingAngle={4}
@@ -313,7 +349,9 @@ export default function CuidadoresDashboard() {
             </p>
             {filteredNoDem.length > 0 ? (
               <div className="grid-3col">
-                {filteredNoDem.map(q => <QuoteCard key={q.id} q={q} roleId={q.roleId} />)}
+                {filteredNoDem.map(q => <QuoteCard key={q.id} q={q} roleId={q.roleId} onClick={() => setModalData({
+                  type: 'quote', title: 'Detalle del Testimonio', content: <QuoteCard q={q} roleId={q.roleId} />
+                })} />)}
               </div>
             ) : (
               <EmptyState icon="search" text="No se encontraron citas." />
@@ -327,7 +365,24 @@ export default function CuidadoresDashboard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }} className="anim-fade-up">
           <Card style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <p style={{ fontWeight: 700, fontSize: '14px', color: 'var(--fg)' }}>Fuentes de información</p>
-            <div style={{ height: '220px', width: '100%' }}>
+            <div className="hover-card" style={{ height: '220px', width: '100%', cursor: 'pointer', padding: '8px', borderRadius: 'var(--r-sm)' }} onClick={() => setModalData({
+              type: 'chart', title: 'Fuentes de información',
+              content: (
+                <div style={{ width: '100%', height: '500px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={linkBarData} margin={{ top: 40, right: 40, bottom: 40, left: 20 }} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" />
+                      <XAxis type="number" tick={{...TICK_STYLE, fontSize: 14}} />
+                      <YAxis type="category" dataKey="name" tick={{...TICK_STYLE, fontSize: 14}} width={180} />
+                      <Tooltip contentStyle={{...TT_STYLE, fontSize: '16px'}} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
+                      <Bar dataKey="value" radius={[0, 6, 6, 0]} maxBarSize={50} name="Total enlaces">
+                        {linkBarData.map((e, i) => <Cell key={i} fill={e.color} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )
+            })}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={linkBarData} margin={{ top: 20, right: 20, bottom: 20, left: 0 }} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" />
@@ -356,6 +411,15 @@ export default function CuidadoresDashboard() {
           </div>
         </div>
       )}
+
+      <Modal 
+        isOpen={!!modalData} 
+        onClose={() => setModalData(null)} 
+        title={modalData?.title}
+        showDownload={modalData?.type === 'chart'}
+      >
+        {modalData?.content}
+      </Modal>
 
     </div>
   );

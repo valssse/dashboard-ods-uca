@@ -206,3 +206,81 @@ export function Stars({ rating, max = 5 }) {
     </div>
   );
 }
+
+/* ── Modal ── */
+export function Modal({ isOpen, onClose, title, children, showDownload = false }) {
+  if (!isOpen) return null;
+
+  const handleDownload = () => {
+    const modalContent = document.getElementById('modal-content-area');
+    if (!modalContent) return;
+    const svgElement = modalContent.querySelector('svg.recharts-surface') || modalContent.querySelector('svg');
+    if (!svgElement) {
+      alert("No se encontró ningún gráfico SVG para descargar.");
+      return;
+    }
+    
+    const serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svgElement);
+    if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+      source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+      source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+    }
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${title || 'grafico'}.svg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(4px)',
+      zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '24px'
+    }} onClick={onClose}>
+      <div 
+        style={{
+          backgroundColor: 'var(--card)', borderRadius: 'var(--r)',
+          border: '1px solid var(--border)', maxWidth: '900px', width: '100%',
+          maxHeight: '90vh', display: 'flex', flexDirection: 'column',
+          boxShadow: '0 24px 48px rgba(0,0,0,0.5)', position: 'relative'
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', borderBottom: '1px solid var(--border)' }}>
+          <h3 style={{ fontWeight: 700, fontSize: '18px', color: 'var(--fg)', fontFamily: 'var(--font)' }}>{title}</h3>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            {showDownload && (
+              <button onClick={handleDownload} style={{
+                background: 'var(--primary)', border: 'none', borderRadius: 'var(--r-sm)',
+                padding: '6px 12px', color: '#000', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font)',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
+              }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
+                Descargar SVG
+              </button>
+            )}
+            <button onClick={onClose} style={{
+              background: 'transparent', border: 'none', color: 'var(--fg-muted)',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px',
+              borderRadius: '50%'
+            }}>
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+        </div>
+        <div id="modal-content-area" style={{ padding: '24px', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
