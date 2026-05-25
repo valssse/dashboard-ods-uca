@@ -386,7 +386,7 @@ function CategorySection({ catKey, catData, sel }) {
   };
 
   const lineChartConfig = useMemo(() => {
-    const xLabels = filteredAttrs.map(a => a.label);
+    const xLabels = filteredAttrs.map(a => '\u00A0\u00A0\u00A0' + a.label);
     const series = sel.map(p => ({
       data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0)),
       label: p.nombre,
@@ -411,7 +411,7 @@ function CategorySection({ catKey, catData, sel }) {
         data: xLabels, 
         scaleType: 'point',
         tickInterval: xLabels,
-        tickLabelStyle: { angle: -90, textAnchor: 'end', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
+        tickLabelStyle: { angle: 90, textAnchor: 'start', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       yAxis: [{ 
         id: 'score-axis', 
@@ -498,8 +498,8 @@ function CategorySection({ catKey, catData, sel }) {
                                 <MuiLineChart
                                   {...lineChartConfig}
                                   width={1000}
-                                  height={500}
-                                  margin={{ top: 20, right: 40, bottom: 160, left: 40 }}
+                                  height={600}
+                                  margin={{ top: 20, right: 40, bottom: 200, left: 40 }}
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
@@ -518,8 +518,8 @@ function CategorySection({ catKey, catData, sel }) {
                         <MuiLineChart
                           {...lineChartConfig}
                           width={isMobile ? 320 : 900}
-                          height={isMobile ? 300 : 400}
-                          margin={{ top: 20, right: 40, bottom: 160, left: 40 }}
+                          height={isMobile ? 380 : 500}
+                          margin={{ top: 20, right: 40, bottom: 200, left: 40 }}
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
