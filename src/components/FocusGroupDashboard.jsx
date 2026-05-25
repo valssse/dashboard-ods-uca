@@ -501,13 +501,9 @@ function CategorySection({ catKey, catData, sel }) {
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
-                                    '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '14px' },
-                                    '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
-                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
-                                    '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
-                                      transform: 'rotate(-45deg)',
-                                      textAnchor: 'end',
-                                    }
+                                    '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '14px' },
+                                    '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5' },
+                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B7B8B5' }
                                   }}
                                 />
                               </ThemeProvider>
@@ -526,13 +522,9 @@ function CategorySection({ catKey, catData, sel }) {
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
-                            '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '11px' },
-                            '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6', fontSize: '11px' },
-                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
-                            '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
-                              transform: 'rotate(-45deg)',
-                              textAnchor: 'end',
-                            }
+                            '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '11px' },
+                            '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5', fontSize: '11px' },
+                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B7B8B5' }
                           }}
                         />
                         </ThemeProvider>
