@@ -475,12 +475,12 @@ export const categorias = {
     icon: 'center_focus_strong',
     color: '#B2B2FF',
     atributos: [
-      { key: 'mobiliario',   label: 'Mobiliario',           icon: 'chair', izq: 'Poco', der: 'Mucho' },
-      { key: 'empaques',     label: 'Empaques',             icon: 'package', izq: 'Poco', der: 'Mucho' },
-      { key: 'decorativos',  label: 'Objetos Decorativos',  icon: 'category', izq: 'Poco', der: 'Mucho' },
-      { key: 'cocina',       label: 'Utensilios de Cocina', icon: 'restaurant', izq: 'Poco', der: 'Mucho' },
-      { key: 'construccion', label: 'Construcción',         icon: 'construction', izq: 'Poco', der: 'Mucho' },
-      { key: 'artesania',    label: 'Artesanía',            icon: 'palette', izq: 'Poco', der: 'Mucho' },
+      { key: 'mobiliario',   label: 'Mobiliario',           icon: 'chair', izq: 'Útil para mobiliario', der: 'No útil para mobiliario' },
+      { key: 'empaques',     label: 'Empaques',             icon: 'package', izq: 'Útil para empaques', der: 'No útil para empaques' },
+      { key: 'decorativos',  label: 'Objetos Decorativos',  icon: 'category', izq: 'Útil para objetos decorativos', der: 'No útil para objetos decorativos' },
+      { key: 'cocina',       label: 'Utensilios de Cocina', icon: 'restaurant', izq: 'Útil para utensilios de cocina', der: 'No útil para utensilios de cocina' },
+      { key: 'construccion', label: 'Construcción',         icon: 'construction', izq: 'Útil para construcción', der: 'No útil para construcción' },
+      { key: 'artesania',    label: 'Artesanía',            icon: 'palette', izq: 'Útil para arte / artesanía', der: 'No útil para arte / artesanía' },
     ],
   },
   olfativo: {
