@@ -411,13 +411,15 @@ function CategorySection({ catKey, catData, sel }) {
         data: xLabels, 
         scaleType: 'point',
         tickInterval: xLabels,
+        tickLabelStyle: { fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       yAxis: [{ 
         id: 'score-axis', 
         label: 'Puntuación (-3 a 3)',
         min: -3,
         max: 3,
-        tickNumber: 7
+        tickNumber: 7,
+        tickLabelStyle: { fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       series: series
     };
@@ -501,9 +503,8 @@ function CategorySection({ catKey, catData, sel }) {
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
-                                    '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '10px' },
-                                    '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5', fontSize: '10px' },
-                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B7B8B5' }
+                                    '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
+                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
                                   }}
                                 />
                               </ThemeProvider>
@@ -522,9 +523,8 @@ function CategorySection({ catKey, catData, sel }) {
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
-                            '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '10px' },
-                            '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5', fontSize: '10px' },
-                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B7B8B5' }
+                            '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
+                            [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' }
                           }}
                         />
                         </ThemeProvider>
