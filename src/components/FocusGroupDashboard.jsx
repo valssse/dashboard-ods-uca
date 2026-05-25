@@ -3,7 +3,8 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, ReferenceArea, Cell, Rectangle
 } from 'recharts';
-import { RadarChart as MuiRadarChart } from '@mui/x-charts/RadarChart';
+import { LineChart as MuiLineChart } from '@mui/x-charts/LineChart';
+import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { participantes, categorias, metaDatos } from '../data/focusGroup';
@@ -384,17 +385,22 @@ function CategorySection({ catKey, catData, sel }) {
     );
   };
 
-  const muiRadarSeries = useMemo(() => sel.map(p => ({
-    id: p.id,
-    label: p.nombre,
-    data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0) + 3),
-    color: p.color,
-    valueFormatter: (v) => `${v - 3} (original)`
-  })), [filteredAttrs, catKey, sel]);
+  const lineChartConfig = useMemo(() => {
+    const xLabels = filteredAttrs.map(a => a.label.length > 16 ? a.label.slice(0, 16) + '…' : a.label);
+    const series = sel.map(p => ({
+      data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0) + 3),
+      label: p.nombre,
+      color: p.color,
+      yAxisId: 'score-axis',
+      valueFormatter: (v) => `${v - 3} (original)`
+    }));
 
-  const muiRadarConfig = useMemo(() => ({
-    metrics: filteredAttrs.map(a => a.label.length > 16 ? a.label.slice(0, 16) + '…' : a.label),
-  }), [filteredAttrs]);
+    return {
+      xAxis: [{ data: xLabels, scaleType: 'point' }],
+      yAxis: [{ id: 'score-axis', label: 'Puntuación (0-6)' }],
+      series: series
+    };
+  }, [filteredAttrs, catKey, sel]);
 
   return (
     <Card style={{ overflow: 'hidden' }}>
@@ -459,30 +465,23 @@ function CategorySection({ catKey, catData, sel }) {
                 {filteredAttrs.length >= 3 && catKey !== 'tactil' && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala 0–6)</p>
-                    <div className="hover-card" style={{ width: '100%', maxWidth: '500px', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
+                    <div className="hover-card" style={{ width: '100%', maxWidth: '600px', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
                       onClick={() => setModalData({
                         title: 'Perfil comparativo',
                         content: (
                           <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center' }}>
                             <ThemeProvider theme={darkTheme}>
-                              <MuiRadarChart
-                                series={muiRadarSeries}
-                                radar={muiRadarConfig}
+                              <MuiLineChart
+                                {...lineChartConfig}
                                 width={600}
                                 height={500}
-                                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                                highlight="series"
-                                slotProps={{ legend: { hidden: true }, tooltip: { trigger: 'item' } }}
+                                margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+                                slotProps={{ legend: { hidden: true } }}
                                 sx={{
                                   width: '100%',
-                                  '& .MuiChartsLegend-root': { display: 'none !important' },
-                                  '& .MuiChartsRadar-polygon': { fillOpacity: 0.15, strokeWidth: 2 },
-                                  '& .MuiChartsRadar-mark': { r: 3 },
                                   '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '14px' },
-                                  '& .MuiChartsRadar-grid': { stroke: '#2A2A2A' },
-                                  '& .MuiChartsLegend-mark': { borderRadius: '3px' },
-                                  '& .MuiChartsLegend-label': { fill: '#B8B9B6', fontSize: '14px' },
-                                  '& text': { fontFamily: 'Geist, system-ui, sans-serif' },
+                                  '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
+                                  [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
                                 }}
                               />
                             </ThemeProvider>
@@ -491,24 +490,17 @@ function CategorySection({ catKey, catData, sel }) {
                       })}
                     >
                       <ThemeProvider theme={darkTheme}>
-                      <MuiRadarChart
-                        series={muiRadarSeries}
-                        radar={muiRadarConfig}
-                        width={isMobile ? 320 : 500}
+                      <MuiLineChart
+                        {...lineChartConfig}
+                        width={isMobile ? 320 : 600}
                         height={isMobile ? 260 : 320}
-                        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                        highlight="series"
-                        slotProps={{ legend: { hidden: true }, tooltip: { trigger: 'item' } }}
+                        margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+                        slotProps={{ legend: { hidden: true } }}
                         sx={{
                           width: '100%',
-                          '& .MuiChartsLegend-root': { display: 'none !important' },
-                          '& .MuiChartsRadar-polygon': { fillOpacity: 0.15, strokeWidth: 2 },
-                          '& .MuiChartsRadar-mark': { r: 3 },
                           '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '11px' },
-                          '& .MuiChartsRadar-grid': { stroke: '#2A2A2A' },
-                          '& .MuiChartsLegend-mark': { borderRadius: '3px' },
-                          '& .MuiChartsLegend-label': { fill: '#B8B9B6', fontSize: '11px' },
-                          '& text': { fontFamily: 'Geist, system-ui, sans-serif' },
+                          '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
+                          [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
                         }}
                       />
                       </ThemeProvider>
