@@ -386,7 +386,7 @@ function CategorySection({ catKey, catData, sel }) {
   };
 
   const lineChartConfig = useMemo(() => {
-    const xLabels = filteredAttrs.map(a => a.label.length > 28 ? a.label.slice(0, 28) + '…' : a.label);
+    const xLabels = filteredAttrs.map(a => a.label);
     const series = sel.map(p => ({
       data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0)),
       label: p.nombre,
@@ -410,7 +410,7 @@ function CategorySection({ catKey, catData, sel }) {
       xAxis: [{ 
         data: xLabels, 
         scaleType: 'point',
-        tickLabelStyle: { angle: -45, textAnchor: 'end', fontSize: 11, fill: '#B8B9B6', dominantBaseline: 'hanging' }
+        tickInterval: xLabels,
       }],
       yAxis: [{ 
         id: 'score-axis', 
@@ -504,6 +504,10 @@ function CategorySection({ catKey, catData, sel }) {
                                     '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '14px' },
                                     '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
                                     [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
+                                    '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                                      transform: 'rotate(-45deg)',
+                                      textAnchor: 'end',
+                                    }
                                   }}
                                 />
                               </ThemeProvider>
@@ -525,6 +529,10 @@ function CategorySection({ catKey, catData, sel }) {
                             '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '11px' },
                             '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6', fontSize: '11px' },
                             [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
+                            '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                              transform: 'rotate(-45deg)',
+                              textAnchor: 'end',
+                            }
                           }}
                         />
                         </ThemeProvider>
