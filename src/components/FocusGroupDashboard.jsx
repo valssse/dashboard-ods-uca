@@ -386,7 +386,7 @@ function CategorySection({ catKey, catData, sel }) {
   };
 
   const lineChartConfig = useMemo(() => {
-    const xLabels = filteredAttrs.map(a => a.label.length > 16 ? a.label.slice(0, 16) + '…' : a.label);
+    const xLabels = filteredAttrs.map(a => a.label);
     const series = sel.map(p => ({
       data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0) + 3),
       label: p.nombre,
@@ -465,26 +465,28 @@ function CategorySection({ catKey, catData, sel }) {
                 {filteredAttrs.length >= 3 && catKey !== 'tactil' && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala 0–6)</p>
-                    <div className="hover-card" style={{ width: '100%', maxWidth: '600px', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
+                    <div className="hover-card" style={{ width: '100%', maxWidth: '800px', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
                       onClick={() => setModalData({
                         title: 'Perfil comparativo',
                         content: (
-                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center' }}>
-                            <ThemeProvider theme={darkTheme}>
-                              <MuiLineChart
-                                {...lineChartConfig}
-                                width={600}
-                                height={500}
-                                margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
-                                slotProps={{ legend: { hidden: true } }}
-                                sx={{
-                                  width: '100%',
-                                  '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '14px' },
-                                  '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
-                                  [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
-                                }}
-                              />
-                            </ThemeProvider>
+                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
+                            <div style={{ minWidth: '800px' }}>
+                              <ThemeProvider theme={darkTheme}>
+                                <MuiLineChart
+                                  {...lineChartConfig}
+                                  width={1000}
+                                  height={500}
+                                  margin={{ top: 20, right: 40, bottom: 80, left: 40 }}
+                                  slotProps={{ legend: { hidden: true } }}
+                                  sx={{
+                                    width: '100%',
+                                    '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '14px' },
+                                    '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
+                                    [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
+                                  }}
+                                />
+                              </ThemeProvider>
+                            </div>
                           </div>
                         )
                       })}
@@ -492,14 +494,14 @@ function CategorySection({ catKey, catData, sel }) {
                       <ThemeProvider theme={darkTheme}>
                       <MuiLineChart
                         {...lineChartConfig}
-                        width={isMobile ? 320 : 600}
-                        height={isMobile ? 260 : 320}
-                        margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+                        width={isMobile ? 320 : 800}
+                        height={isMobile ? 260 : 360}
+                        margin={{ top: 20, right: 20, bottom: 80, left: 40 }}
                         slotProps={{ legend: { hidden: true } }}
                         sx={{
                           width: '100%',
                           '& .MuiChartsAxis-label': { fill: '#B8B9B6', fontSize: '11px' },
-                          '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6' },
+                          '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B8B9B6', fontSize: '11px' },
                           [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B8B9B6' },
                         }}
                       />
