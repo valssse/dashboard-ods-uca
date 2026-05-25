@@ -501,8 +501,8 @@ function CategorySection({ catKey, catData, sel }) {
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
-                                    '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '14px' },
-                                    '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5' },
+                                    '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '10px' },
+                                    '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5', fontSize: '10px' },
                                     [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B7B8B5' }
                                   }}
                                 />
@@ -522,8 +522,8 @@ function CategorySection({ catKey, catData, sel }) {
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
-                            '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '11px' },
-                            '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5', fontSize: '11px' },
+                            '& .MuiChartsAxis-label': { fill: '#B7B8B5', fontSize: '10px' },
+                            '& text': { fontFamily: 'Geist, system-ui, sans-serif', fill: '#B7B8B5', fontSize: '10px' },
                             [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#B7B8B5' }
                           }}
                         />
