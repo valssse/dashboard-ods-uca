@@ -203,7 +203,7 @@ export const participantes = [
   {
     id: 'gabriela',
     nombre: 'Gabriela Girón',
-    profesion: 'Licenciada',
+    profesion: 'Licenciada en Diseño Gráfico',
     icon: 'business_center',
     color: '#B6FFCE',
     estimado: false,
