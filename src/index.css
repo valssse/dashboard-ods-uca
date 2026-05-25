@@ -1,0 +1,213 @@
+/* ═══════════════════════════════════════════════════════
+   LUNARIS DESIGN SYSTEM — Dark Mode
+   Primary: #FF8400  Fonts: Geist + JetBrains Mono
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Tokens ── */
+:root {
+  --bg:          #111111;
+  --bg-2:        #181818;
+  --card:        #1A1A1A;
+  --card-2:      #202020;
+  --border:      #2E2E2E;
+  --border-subtle: #252525;
+
+  --fg:          #FFFFFF;
+  --fg-muted:    #B8B9B6;
+  --fg-subtle:   #666666;
+
+  --primary:     #FF8400;
+  --primary-fg:  #111111;
+  --primary-dim: rgba(255,132,0,0.15);
+  --primary-glow:rgba(255,132,0,0.25);
+
+  --violet:      #B2B2FF;
+  --violet-dim:  rgba(178,178,255,0.15);
+  --violet-glow: rgba(178,178,255,0.25);
+
+  --success:     #B6FFCE;
+  --success-bg:  #222924;
+  --success-dim: rgba(182,255,206,0.15);
+
+  --error:       #FF5C33;
+  --error-bg:    #24100B;
+  --error-dim:   rgba(255,92,51,0.15);
+
+  --warning:     #FF8400;
+  --warning-bg:  #291C0F;
+
+  --info:        #B2B2FF;
+  --info-bg:     #222229;
+
+  --font:        'Geist', system-ui, sans-serif;
+  --mono:        'JetBrains Mono', monospace;
+
+  --r:           16px;
+  --r-sm:        10px;
+  --r-pill:      9999px;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+#root { width: 100%; min-height: 100vh; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--r-pill); }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+/* ── Utilities ── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mono { font-family: var(--mono); }
+.uppercase { text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.05); opacity: 0.7; }
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+.anim-fade-up  { animation: fadeUp  0.4s ease both; }
+.anim-fade-in  { animation: fadeIn  0.3s ease both; }
+
+.d-50  { animation-delay: 50ms; }
+.d-100 { animation-delay: 100ms; }
+.d-150 { animation-delay: 150ms; }
+.d-200 { animation-delay: 200ms; }
+.d-250 { animation-delay: 250ms; }
+.d-300 { animation-delay: 300ms; }
+.d-350 { animation-delay: 350ms; }
+
+/* ── Recharts dark overrides ── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: #2A2A2A !important; }
+.recharts-polar-grid-angle line { stroke: #2A2A2A !important; }
+.recharts-polar-grid-concentric-polygon,
+.recharts-polar-grid-concentric-circle { stroke: #2A2A2A !important; }
+
+/* ── Scrollable tabs ── */
+.scroll-tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+.scroll-tabs::-webkit-scrollbar { display: none; }
+
+/* ── Score bar ── */
+.sbar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: var(--r-pill);
+  position: relative;
+  overflow: visible;
+}
+.sbar-center {
+  position: absolute;
+  left: 50%; top: -3px;
+  transform: translateX(-50%);
+  width: 1px; height: 12px;
+  background: #3a3a3a;
+  z-index: 2;
+}
+.sbar-fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  border-radius: var(--r-pill);
+  transition: all 0.4s ease;
+}
+
+/* ── Responsive grid helpers ── */
+.grid-kpi   { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 16px; }
+.grid-2col  { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; }
+.grid-3col  { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; }
+.grid-4col  { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; }
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 16px; }
+.grid-attrs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 12px; }
+.grid-util  { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 12px; }
+
+@media (max-width: 600px) {
+  .grid-kpi   { grid-template-columns: repeat(2,1fr); }
+  .grid-2col  { grid-template-columns: 1fr; }
+  .grid-3col  { grid-template-columns: 1fr; }
+  .grid-4col  { grid-template-columns: repeat(2,1fr); }
+  .grid-cards { grid-template-columns: 1fr; }
+  .grid-attrs { grid-template-columns: 1fr; }
+  .span-2-mobile { grid-column: span 2; }
+  .hide-text-mobile { display: none !important; }
+
+  /* Mobile Nav Bottom Bar */
+  .app-nav {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    border-bottom: none !important;
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 1000 !important;
+  }
+  .app-nav-container {
+    justify-content: center !important;
+    height: 64px !important;
+  }
+  .app-toggle-nav {
+    width: 100%;
+    justify-content: space-around;
+    padding: 6px !important;
+  }
+  .toggle-btn {
+    text-align: center;
+    padding: 10px 4px !important;
+    font-size: 11px !important;
+  }
+  .app-main {
+    padding-bottom: 70px;
+  }
+}
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
