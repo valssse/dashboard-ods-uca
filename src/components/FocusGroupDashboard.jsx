@@ -672,7 +672,7 @@ export default function FocusGroupDashboard() {
             fontSize: '12px', color: 'var(--warning)',
             display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font)',
           }}>
-            ⚠️ <strong>Arq. Jazmin</strong> no cuenta con JSON formal. Sus puntuaciones son estimaciones extraídas de la transcripción y están marcadas como <strong>Est.</strong>
+            ⚠️ <strong>Jazmin Crepiat</strong> no cuenta con JSON formal. Sus puntuaciones son estimaciones extraídas de la transcripción y están marcadas como <strong>Est.</strong>
           </div>
         )}
       </div>

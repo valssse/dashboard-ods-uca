@@ -14,7 +14,7 @@ export const metaDatos = {
 export const participantes = [
   {
     id: 'jazmin',
-    nombre: 'Arq. Jazmin',
+    nombre: 'Jazmin Crepiat',
     profesion: 'Arquitecta',
     icon: 'architecture',
     color: '#FF8400',
@@ -108,8 +108,8 @@ export const participantes = [
   },
   {
     id: 'erick',
-    nombre: 'Arq. Erick Castro',
-    profesion: 'Arquitecto',
+    nombre: 'Erick Castro',
+    profesion: 'Ingeniero Electrico',
     icon: 'engineering',
     color: '#B2B2FF',
     estimado: false,
@@ -202,7 +202,7 @@ export const participantes = [
   },
   {
     id: 'gabriela',
-    nombre: 'Lic. Gabriela Girón',
+    nombre: 'Gabriela Girón',
     profesion: 'Licenciada',
     icon: 'business_center',
     color: '#B6FFCE',
