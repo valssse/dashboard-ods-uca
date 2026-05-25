@@ -581,8 +581,8 @@ function CategorySection({ catKey, catData, sel }) {
                       onClick={() => setModalData({
                         title: 'Perfil comparativo',
                         content: (
-                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center' }}>
-                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center' }}>
+                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'flex-start', overflowX: 'auto', paddingBottom: '20px' }}>
+                            <div style={{ minWidth: '1000px', width: '1000px' }}>
                               <ThemeProvider theme={darkTheme}>
                                 <MuiLineChart
                                   {...lineChartConfig}
