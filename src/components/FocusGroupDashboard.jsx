@@ -392,11 +392,26 @@ function CategorySection({ catKey, catData, sel }) {
       label: p.nombre,
       color: p.color,
       yAxisId: 'score-axis',
-      valueFormatter: (v) => `${v - 3} (original)`
+      valueFormatter: (v, context) => {
+        const originalValue = v - 3;
+        if (originalValue === 0) return '0 (indiferente)';
+        const attr = filteredAttrs[context?.dataIndex];
+        if (!attr) return `${originalValue}`;
+        const word = originalValue < 0 ? attr.izq : attr.der;
+        const abs = Math.abs(originalValue);
+        let prefix = '';
+        if (abs === 3) prefix = 'Muy ';
+        if (abs === 1) prefix = 'Ligeramente ';
+        return `${originalValue} (${prefix}${word.toLowerCase()})`;
+      }
     }));
 
     return {
-      xAxis: [{ data: xLabels, scaleType: 'point' }],
+      xAxis: [{ 
+        data: xLabels, 
+        scaleType: 'point',
+        tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 12, fill: '#B8B9B6' }
+      }],
       yAxis: [{ id: 'score-axis', label: 'Puntuación (0-6)' }],
       series: series
     };
@@ -470,13 +485,13 @@ function CategorySection({ catKey, catData, sel }) {
                         title: 'Perfil comparativo',
                         content: (
                           <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
-                            <div style={{ minWidth: '800px' }}>
+                            <div style={{ minWidth: '1000px', paddingBottom: '40px' }}>
                               <ThemeProvider theme={darkTheme}>
                                 <MuiLineChart
                                   {...lineChartConfig}
-                                  width={1000}
+                                  width={1200}
                                   height={500}
-                                  margin={{ top: 20, right: 40, bottom: 80, left: 40 }}
+                                  margin={{ top: 20, right: 40, bottom: 120, left: 40 }}
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
@@ -494,9 +509,9 @@ function CategorySection({ catKey, catData, sel }) {
                       <ThemeProvider theme={darkTheme}>
                       <MuiLineChart
                         {...lineChartConfig}
-                        width={isMobile ? 320 : 800}
-                        height={isMobile ? 260 : 360}
-                        margin={{ top: 20, right: 20, bottom: 80, left: 40 }}
+                        width={isMobile ? 320 : 1000}
+                        height={isMobile ? 300 : 400}
+                        margin={{ top: 20, right: 40, bottom: 100, left: 40 }}
                         slotProps={{ legend: { hidden: true } }}
                         sx={{
                           width: '100%',
