@@ -494,12 +494,12 @@ function CategorySection({ catKey, catData, sel }) {
                         title: 'Perfil comparativo',
                         content: (
                           <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
-                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center', paddingBottom: '120px' }}>
+                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center', paddingBottom: '60px' }}>
                               <ThemeProvider theme={darkTheme}>
                                 <MuiLineChart
                                   {...lineChartConfig}
                                   width={1000}
-                                  height={400}
+                                  height={350}
                                   margin={{ top: 20, right: 40, bottom: 20, left: 40 }}
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
@@ -520,12 +520,12 @@ function CategorySection({ catKey, catData, sel }) {
                         )
                       })}
                     >
-                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center', paddingBottom: '120px' }}>
+                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center', paddingBottom: '60px' }}>
                         <ThemeProvider theme={darkTheme}>
                         <MuiLineChart
                           {...lineChartConfig}
                           width={isMobile ? 320 : 900}
-                          height={isMobile ? 300 : 350}
+                          height={isMobile ? 260 : 280}
                           margin={{ top: 20, right: 40, bottom: 20, left: 40 }}
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
