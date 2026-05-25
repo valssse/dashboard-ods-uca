@@ -386,14 +386,14 @@ function CategorySection({ catKey, catData, sel }) {
   };
 
   const lineChartConfig = useMemo(() => {
-    const xLabels = filteredAttrs.map(a => a.label);
+    const xLabels = filteredAttrs.map(a => a.label.length > 28 ? a.label.slice(0, 28) + '…' : a.label);
     const series = sel.map(p => ({
-      data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0) + 3),
+      data: filteredAttrs.map(a => (p[catKey]?.[a.key] ?? 0)),
       label: p.nombre,
       color: p.color,
       yAxisId: 'score-axis',
       valueFormatter: (v, context) => {
-        const originalValue = v - 3;
+        const originalValue = v;
         if (originalValue === 0) return '0 (indiferente)';
         const attr = filteredAttrs[context?.dataIndex];
         if (!attr) return `${originalValue}`;
@@ -410,9 +410,15 @@ function CategorySection({ catKey, catData, sel }) {
       xAxis: [{ 
         data: xLabels, 
         scaleType: 'point',
-        tickLabelStyle: { angle: -45, textAnchor: 'end', fontSize: 11, fill: '#B8B9B6' }
+        tickLabelStyle: { angle: -45, textAnchor: 'end', fontSize: 11, fill: '#B8B9B6', dominantBaseline: 'hanging' }
       }],
-      yAxis: [{ id: 'score-axis', label: 'Puntuación (0-6)' }],
+      yAxis: [{ 
+        id: 'score-axis', 
+        label: 'Puntuación (-3 a 3)',
+        min: -3,
+        max: 3,
+        tickNumber: 7
+      }],
       series: series
     };
   }, [filteredAttrs, catKey, sel]);
@@ -479,7 +485,7 @@ function CategorySection({ catKey, catData, sel }) {
                 {/* Radar (requires at least 3 points to form a polygon) */}
                 {filteredAttrs.length >= 3 && catKey !== 'tactil' && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala 0–6)</p>
+                    <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala -3 a 3)</p>
                     <div className="hover-card" style={{ width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)', overflowX: 'auto' }}
                       onClick={() => setModalData({
                         title: 'Perfil comparativo',
