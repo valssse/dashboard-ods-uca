@@ -239,6 +239,33 @@ export function Modal({ isOpen, onClose, title, children, showDownload = false }
     document.body.removeChild(link);
   };
 
+  const handleCopy = async () => {
+    const modalContent = document.getElementById('modal-content-area');
+    if (!modalContent) return;
+    const svgElement = modalContent.querySelector('svg.recharts-surface') || modalContent.querySelector('svg');
+    if (!svgElement) {
+      alert("No se encontró ningún gráfico SVG para copiar.");
+      return;
+    }
+    
+    const serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svgElement);
+    if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+      source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+      source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+    }
+    
+    try {
+      await navigator.clipboard.writeText(source);
+      alert("SVG copiado al portapapeles");
+    } catch (err) {
+      console.error('Error al copiar el SVG:', err);
+      alert("Error al copiar el SVG al portapapeles");
+    }
+  };
+
   return (
     <div style={{
       position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -259,14 +286,24 @@ export function Modal({ isOpen, onClose, title, children, showDownload = false }
           <h3 style={{ fontWeight: 700, fontSize: '18px', color: 'var(--fg)', fontFamily: 'var(--font)' }}>{title}</h3>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             {showDownload && (
-              <button onClick={handleDownload} style={{
-                background: 'var(--primary)', border: 'none', borderRadius: 'var(--r-sm)',
-                padding: '6px 12px', color: '#000', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font)',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
-              }}>
-                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
-                Descargar SVG
-              </button>
+              <>
+                <button onClick={handleCopy} style={{
+                  background: 'var(--card-2)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)',
+                  padding: '6px 12px', color: 'var(--fg)', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
+                }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>content_copy</span>
+                  Copiar SVG
+                </button>
+                <button onClick={handleDownload} style={{
+                  background: 'var(--primary)', border: 'none', borderRadius: 'var(--r-sm)',
+                  padding: '6px 12px', color: '#000', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
+                }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
+                  Descargar SVG
+                </button>
+              </>
             )}
             <button onClick={onClose} style={{
               background: 'transparent', border: 'none', color: 'var(--fg-muted)',
