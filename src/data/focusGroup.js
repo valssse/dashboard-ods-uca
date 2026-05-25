@@ -475,12 +475,12 @@ export const categorias = {
     icon: 'center_focus_strong',
     color: '#B2B2FF',
     atributos: [
-      { key: 'mobiliario',   label: 'Mobiliario',           icon: 'chair' },
-      { key: 'empaques',     label: 'Empaques',             icon: 'package' },
-      { key: 'decorativos',  label: 'Objetos Decorativos',  icon: 'category' },
-      { key: 'cocina',       label: 'Utensilios de Cocina', icon: 'restaurant' },
-      { key: 'construccion', label: 'Construcción',         icon: 'construction' },
-      { key: 'artesania',    label: 'Artesanía',            icon: 'palette' },
+      { key: 'mobiliario',   label: 'Mobiliario',           icon: 'chair', izq: 'Poco', der: 'Mucho' },
+      { key: 'empaques',     label: 'Empaques',             icon: 'package', izq: 'Poco', der: 'Mucho' },
+      { key: 'decorativos',  label: 'Objetos Decorativos',  icon: 'category', izq: 'Poco', der: 'Mucho' },
+      { key: 'cocina',       label: 'Utensilios de Cocina', icon: 'restaurant', izq: 'Poco', der: 'Mucho' },
+      { key: 'construccion', label: 'Construcción',         icon: 'construction', izq: 'Poco', der: 'Mucho' },
+      { key: 'artesania',    label: 'Artesanía',            icon: 'palette', izq: 'Poco', der: 'Mucho' },
     ],
   },
   olfativo: {
