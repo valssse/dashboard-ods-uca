@@ -252,23 +252,32 @@ function CategorySection({ catKey, catData, sel }) {
   const [search, setSearch] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
   const cardRef = useRef(null);
 
   const handleDownloadSvg = async (e) => {
     e.stopPropagation();
     if (!cardRef.current) return;
     try {
+      setIsExporting(true);
+      // Wait for React to re-render without maxHeight
+      await new Promise(r => setTimeout(r, 100));
+
       const dataUrl = await toPng(cardRef.current, {
         filter: (node) => !node.classList?.contains?.('no-export'),
         backgroundColor: '#161616',
         pixelRatio: 3 // High resolution for design tools
       });
+      
+      setIsExporting(false);
+
       const link = document.createElement('a');
       link.download = `${catData.titulo.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
       console.error('Error al descargar PNG:', err);
+      setIsExporting(false);
     }
   };
 
@@ -525,7 +534,14 @@ function CategorySection({ catKey, catData, sel }) {
 
       {open && (
         <div style={{ borderTop: '1px solid var(--border)', padding: '22px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxHeight: '70vh', overflowY: 'auto', paddingRight: '12px', paddingBottom: '40px', maskImage: 'linear-gradient(to bottom, black calc(100% - 40px), transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 40px), transparent 100%)' }}>
+          <div style={{ 
+            display: 'flex', flexDirection: 'column', gap: '32px', 
+            maxHeight: isExporting ? 'none' : '70vh', 
+            overflowY: isExporting ? 'visible' : 'auto', 
+            paddingRight: '12px', paddingBottom: '40px', 
+            maskImage: isExporting ? 'none' : 'linear-gradient(to bottom, black calc(100% - 40px), transparent 100%)', 
+            WebkitMaskImage: isExporting ? 'none' : 'linear-gradient(to bottom, black calc(100% - 40px), transparent 100%)' 
+          }}>
                 {/* Radar (requires at least 3 points to form a polygon) */}
                 {filteredAttrs.length >= 3 && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
