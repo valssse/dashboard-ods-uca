@@ -276,10 +276,15 @@ function CategorySection({ catKey, catData, sel }) {
         // Disable CSS transform temporarily
         text.style.transform = 'none';
         
-        const x = parseFloat(text.getAttribute('x') || 0);
-        const y = parseFloat(text.getAttribute('y') || 0);
-        // Apply native SVG rotation (-90 deg) around the text anchor point
-        text.setAttribute('transform', `rotate(-90, ${x}, ${y}) translate(10, 10)`);
+        try {
+          const bbox = text.getBBox();
+          const cx = bbox.x;
+          const cy = bbox.y + bbox.height / 2;
+          // Apply native SVG rotation (-90 deg) around the text anchor point
+          text.setAttribute('transform', `rotate(-90, ${cx}, ${cy}) translate(-10, 0)`);
+        } catch(e) {
+          console.error(e);
+        }
       });
 
       const dataUrl = await toPng(cardRef.current, {
@@ -594,6 +599,7 @@ function CategorySection({ catKey, catData, sel }) {
                                     '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
                                     [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
                                     '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                                      opacity: 1,
                                       transform: 'rotate(-90deg) translateX(10px) translateY(10px)',
                                       textAnchor: 'end'
                                     }
@@ -610,8 +616,8 @@ function CategorySection({ catKey, catData, sel }) {
                         <MuiLineChart
                           {...lineChartConfig}
                           width={isMobile ? 320 : 900}
-                          height={isMobile ? 260 : 280}
-                          margin={{ top: 20, right: 40, bottom: 20, left: 40 }}
+                          height={isMobile ? 260 : (isExporting ? 400 : 280)}
+                          margin={{ top: 20, right: 40, bottom: isExporting ? 140 : 20, left: 40 }}
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
@@ -619,6 +625,7 @@ function CategorySection({ catKey, catData, sel }) {
                             '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
                             [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
                             '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
+                              opacity: isExporting ? 1 : 0,
                               transform: 'rotate(-90deg) translateX(10px) translateY(10px)',
                               textAnchor: 'end'
                             }
