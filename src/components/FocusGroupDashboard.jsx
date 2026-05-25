@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { toSvg } from 'html-to-image';
+import { toPng } from 'html-to-image';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, ReferenceArea, Cell, Rectangle
@@ -258,16 +258,17 @@ function CategorySection({ catKey, catData, sel }) {
     e.stopPropagation();
     if (!cardRef.current) return;
     try {
-      const dataUrl = await toSvg(cardRef.current, {
+      const dataUrl = await toPng(cardRef.current, {
         filter: (node) => !node.classList?.contains?.('no-export'),
-        backgroundColor: '#161616'
+        backgroundColor: '#161616',
+        pixelRatio: 3 // High resolution for design tools
       });
       const link = document.createElement('a');
-      link.download = `${catData.titulo.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.svg`;
+      link.download = `${catData.titulo.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
-      console.error('Error al descargar SVG:', err);
+      console.error('Error al descargar PNG:', err);
     }
   };
 
@@ -507,7 +508,7 @@ function CategorySection({ catKey, catData, sel }) {
                     onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
                     onMouseLeave={e => e.currentTarget.style.opacity = '1'}
                   >
-                    Descargar SVG
+                    Descargar Imagen
                   </button>
                 </div>
               </div>
