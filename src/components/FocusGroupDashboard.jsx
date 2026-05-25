@@ -489,12 +489,12 @@ function CategorySection({ catKey, catData, sel }) {
                 {filteredAttrs.length >= 3 && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala -3 a 3)</p>
-                    <div className="hover-card" style={{ width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)', overflowX: 'auto' }}
+                    <div className="hover-card" style={{ width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)' }}
                       onClick={() => setModalData({
                         title: 'Perfil comparativo',
                         content: (
-                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
-                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center', paddingBottom: '60px' }}>
+                          <div style={{ width: '100%', height: '500px', display: 'flex', justifyContent: 'center' }}>
+                            <div style={{ minWidth: '1000px', display: 'flex', justifyContent: 'center' }}>
                               <ThemeProvider theme={darkTheme}>
                                 <MuiLineChart
                                   {...lineChartConfig}
@@ -520,7 +520,7 @@ function CategorySection({ catKey, catData, sel }) {
                         )
                       })}
                     >
-                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center', paddingBottom: '60px' }}>
+                      <div style={{ minWidth: isMobile ? '320px' : '900px', display: 'flex', justifyContent: 'center' }}>
                         <ThemeProvider theme={darkTheme}>
                         <MuiLineChart
                           {...lineChartConfig}
