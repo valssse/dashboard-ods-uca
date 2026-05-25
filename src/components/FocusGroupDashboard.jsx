@@ -411,7 +411,7 @@ function CategorySection({ catKey, catData, sel }) {
         data: xLabels, 
         scaleType: 'point',
         tickInterval: xLabels,
-        tickLabelStyle: { fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
+        tickLabelStyle: { angle: -90, textAnchor: 'end', dominantBaseline: 'middle', fontSize: 10, fill: '#8B8C89', fontFamily: 'Geist, system-ui, sans-serif' }
       }],
       yAxis: [{ 
         id: 'score-axis', 
@@ -499,7 +499,7 @@ function CategorySection({ catKey, catData, sel }) {
                                   {...lineChartConfig}
                                   width={1000}
                                   height={500}
-                                  margin={{ top: 20, right: 40, bottom: 120, left: 40 }}
+                                  margin={{ top: 20, right: 40, bottom: 160, left: 40 }}
                                   slotProps={{ legend: { hidden: true } }}
                                   sx={{
                                     width: '100%',
@@ -519,7 +519,7 @@ function CategorySection({ catKey, catData, sel }) {
                           {...lineChartConfig}
                           width={isMobile ? 320 : 900}
                           height={isMobile ? 300 : 400}
-                          margin={{ top: 20, right: 40, bottom: 100, left: 40 }}
+                          margin={{ top: 20, right: 40, bottom: 160, left: 40 }}
                           slotProps={{ legend: { hidden: true } }}
                           sx={{
                             width: '100%',
