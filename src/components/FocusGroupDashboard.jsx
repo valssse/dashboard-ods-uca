@@ -595,6 +595,8 @@ function CategorySection({ catKey, catData, sel }) {
                                     overflow: 'visible',
                                     '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
                                     [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                                    '& .MuiChartsAxis-line': { stroke: '#404040' },
+                                    '& .MuiChartsAxis-tick': { stroke: '#404040' },
                                     '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
                                       opacity: 1,
                                       ...(isExporting ? {} : { transform: 'rotate(-90deg) translateX(10px) translateY(10px)' }),
@@ -621,6 +623,8 @@ function CategorySection({ catKey, catData, sel }) {
                             overflow: 'visible',
                             '& .MuiChartsAxis-label': { fill: '#8B8C89', fontSize: '10px' },
                             [`& .${axisClasses.root}[data-axis-id="score-axis"] .${axisClasses.label}`]: { fill: '#8B8C89' },
+                            '& .MuiChartsAxis-line': { stroke: '#404040' },
+                            '& .MuiChartsAxis-tick': { stroke: '#404040' },
                             '& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel': {
                               opacity: isExporting ? 1 : 0,
                               ...(isExporting ? {} : { transform: 'rotate(-90deg) translateX(10px) translateY(10px)' }),
