@@ -275,7 +275,7 @@ function CategorySection({ catKey, catData, sel }) {
         
         try {
           const bbox = text.getBBox();
-          const cx = bbox.x;
+          const cx = bbox.x + bbox.width;
           const cy = bbox.y + bbox.height / 2;
           // Apply native SVG rotation (-90 deg) around the text anchor point
           text.setAttribute('transform', `rotate(-90, ${cx}, ${cy}) translate(-10, 0)`);
