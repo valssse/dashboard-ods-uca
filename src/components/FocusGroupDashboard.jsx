@@ -485,7 +485,7 @@ function CategorySection({ catKey, catData, sel }) {
         <div style={{ borderTop: '1px solid var(--border)', padding: '22px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxHeight: '70vh', overflowY: 'auto', paddingRight: '12px', paddingBottom: '40px', maskImage: 'linear-gradient(to bottom, black calc(100% - 40px), transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 40px), transparent 100%)' }}>
                 {/* Radar (requires at least 3 points to form a polygon) */}
-                {filteredAttrs.length >= 3 && catKey !== 'tactil' && (
+                {filteredAttrs.length >= 3 && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--fg-muted)', marginBottom: '4px', alignSelf: 'flex-start' }}>Perfil comparativo (Escala -3 a 3)</p>
                     <div className="hover-card" style={{ width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'center', cursor: 'pointer', padding: '16px', borderRadius: 'var(--r-sm)', overflowX: 'auto' }}
