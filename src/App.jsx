@@ -3,7 +3,7 @@ import FocusGroupDashboard from './components/FocusGroupDashboard';
 import CuidadoresDashboard from './components/CuidadoresDashboard';
 
 export default function App() {
-  const [view, setView] = useState('focusGroup');
+  const [view, setView] = useState('cuidadores');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
