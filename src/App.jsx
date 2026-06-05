@@ -4,6 +4,46 @@ import CuidadoresDashboard from './components/CuidadoresDashboard';
 
 export default function App() {
   const [view, setView] = useState('focusGroup');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password === 'https://www.figma.com/board/phIpM8LxuZHGEDMLmZwnir/Equipo-20-MDD-2026?node-id=0-1&t=JTeIqf9LJUiGplGs-1') {
+      setIsAuthenticated(true);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg)', color: 'var(--fg)', padding: '24px' }}>
+        <div className="glass anim-fade-up" style={{ backgroundColor: 'var(--card)', padding: '48px 32px', borderRadius: '24px', border: '1px solid var(--border)', maxWidth: '440px', width: '100%', textAlign: 'center', boxShadow: 'var(--shadow-lg)' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'var(--primary-dim)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', border: '1px solid var(--primary-glow)' }}>
+            <span className="material-symbols-outlined" style={{ fontSize: '28px', fontVariationSettings: "'FILL' 1" }}>lock</span>
+          </div>
+          <h1 style={{ fontSize: '24px', margin: '0 0 8px 0', fontFamily: 'var(--font)', fontWeight: 700 }}>Investigación Cuidadores</h1>
+          <h2 style={{ fontSize: '15px', margin: '0 0 32px 0', color: 'var(--fg-muted)', fontWeight: 400 }}>Grupo Focal — Biomaterial</h2>
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(false); }}
+                placeholder="••••••••••••"
+                style={{ width: '100%', padding: '14px 16px', borderRadius: '12px', border: error ? '1px solid var(--error)' : '1px solid var(--border)', backgroundColor: 'var(--bg-2)', color: 'var(--fg)', boxSizing: 'border-box', outline: 'none', transition: 'border 0.2s', fontFamily: 'var(--mono)', fontSize: '14px' }}
+              />
+              <p style={{ margin: '4px 0 0 8px', fontSize: '12px', color: 'var(--fg-muted)' }}>contraseña ingresar link de figjam</p>
+            </div>
+            <button type="submit" style={{ padding: '14px', borderRadius: '12px', border: 'none', backgroundColor: 'var(--primary)', color: 'var(--primary-fg)', fontWeight: 600, cursor: 'pointer', marginTop: '8px', fontSize: '15px', transition: 'all 0.2s', boxShadow: '0 0 20px var(--primary-glow)' }}>Ingresar</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }}>
